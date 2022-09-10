@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
     return (
-        <div className = "bg-blue-300">
-            Hello World!
-        </div>
+        <Outlet />
     );
 };
 
