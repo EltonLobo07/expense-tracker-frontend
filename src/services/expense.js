@@ -9,7 +9,10 @@ function getOneCategoryExpenses({ categoryId }) {
 
 function getOneExpense({ expenseId }) {
     return axios.get(`${BASE_URL}/${expenseId}`)
-                .then(response => response.data);
+                .then(response => {
+                    console.log(response.status);
+                    return response.data;
+                });
 };
 
 function deleteOneExpense({ expenseId }) {

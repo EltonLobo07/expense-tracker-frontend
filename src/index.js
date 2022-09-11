@@ -9,6 +9,7 @@ import "./index.css";
 import CategoryPage from "./components/CategoryPage";
 import ExpensePage from "./components/ExpensePage";
 import MainDisplayer from "./components/MainDisplayer";
+import UnknownPath from "./components/UnknownPath";
 
 if (!window.Promise)
     window.Promise = PromisePolyfill;
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path = "category/:categoryId" element = {<CategoryPage />} />
                 <Route path = "expense/:expenseId" element = {<ExpensePage />} />
             </Route>
+            <Route path = "*" element = {<UnknownPath />} />
         </Routes>
     </BrowserRouter>
 );

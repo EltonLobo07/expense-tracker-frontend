@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import UpdateDBInput from "./UpdateDBInput";
 import expenseService from "../services/expense";
+import UnknownPath  from "./UnknownPath";
 
 function ExpensePage() {
     const [expense, setExpense] = useState(null);
+    const [pageNotFound, setPageNotFound] = useState(false);
     const { expenseId } = useParams(); 
     const navigate = useNavigate();
 
     useEffect(() => {
         expenseService.getOneExpense({expenseId})
                       .then(expense => setExpense(expense))
-                      .catch(err => console.log(err.message));
+                      .catch(err => {
+                        if (err.response.status === 404)
+                            setPageNotFound(true);
+                      });
     }, []);
 
     function handleDeleteButtonClick() {
@@ -19,6 +24,9 @@ function ExpensePage() {
                       .then(() => navigate(`/category/${expense.category}`))
                       .catch(err => console.log(err.message));
     };
+
+    if (pageNotFound)
+        return <UnknownPath />
 
     if (expense === null) 
         return (
