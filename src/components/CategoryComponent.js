@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-function CategoryComponent({ category }) {
+function CategoryComponent({ category, onAddExpenseClick }) {
     const navigate = useNavigate();
 
     return (
@@ -18,8 +18,8 @@ function CategoryComponent({ category }) {
             </div>
 
             <div className = "border border-indigo-300 flex justify-end gap-x-4">
-                <button className = "btn btn-v1">
-                    Add Expenses
+                <button className = "btn btn-v1" onClick = {() => onAddExpenseClick(category.name)}>
+                    Add Expense
                 </button>
 
                 <button className = "btn btn-v1" onClick = {() => navigate(`category/${category._id}`)}>
@@ -31,7 +31,8 @@ function CategoryComponent({ category }) {
 };
 
 CategoryComponent.propTypes = {
-    category: PropTypes.object.isRequired
+    category: PropTypes.object.isRequired,
+    onAddExpenseClick: PropTypes.func.isRequired
 };
 
 export default CategoryComponent;

@@ -19,6 +19,11 @@ function deleteOneExpense({ expenseId }) {
 function updateExpense(data) {
     return axios.put(`${BASE_URL}/${this}`, data)
                 .then(response => response.data)
+};
+
+function addExpense(data) {
+    return axios.post(BASE_URL, data)
+                 .then(response => response.data)
 }
 
-export default {getOneCategoryExpenses, getOneExpense, deleteOneExpense, updateExpense}; 
+export default {getOneCategoryExpenses, getOneExpense, deleteOneExpense, updateExpense, addExpense}; 
