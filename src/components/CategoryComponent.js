@@ -6,18 +6,23 @@ function CategoryComponent({ category, onAddExpenseClick }) {
     const navigate = useNavigate();
 
     return (
-        <div className = "border border-orange-300 p-2 flex flex-col gap-y-2 w-1/2">
-            <div className = "flex justify-between">
-                <div className = "capitalize">
+        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md">
+            <div className = "flex flex-col gap-y-2 my-xsm:flex-row my-xsm:justify-between">
+                <div className = "capitalize font-medium text-lg">
                     {category.name}
                 </div>
 
                 <div>
-                    {`$${category.total} / $${category.limit}`}
+                    <span className = "font-medium text-lg">
+                        {`$${category.total}`}
+                    </span>
+                    <span className = "text-gray-500">
+                        {` / $${category.limit}`}
+                    </span> 
                 </div>
             </div>
 
-            <div className = "border border-indigo-300 flex justify-end gap-x-4">
+            <div className = "flex justify-end gap-x-4">
                 <button className = "btn btn-v1" onClick = {() => onAddExpenseClick(category.name)}>
                     Add Expense
                 </button>

@@ -8,7 +8,7 @@ html, body, #root {
 
 @layer components {
     .btn {
-        @apply border border-blue-700 px-4 py-2 capitalize rounded-lg;
+        @apply border border-blue-700 px-2 py-1 capitalize rounded-lg text-lg;
     }
 
     .btn-v1 {

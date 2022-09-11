@@ -6,9 +6,9 @@ import Categories from "./Categories";
 
 function MainDisplayer() {
     const [categories, setCategories] = useState(null);
-    const [expenseFormZIndex, setExpenseFormZIndex] = useState("10");
+    const [expenseFormZIndex, setExpenseFormZIndex] = useState(10);
     const [addExpenseCategory, setAddExpenseCategory] = useState(null);
-    const [budgetFormZIndex, setBudgetFormZIndex] = useState("10");
+    const [budgetFormZIndex, setBudgetFormZIndex] = useState(10);
     const [someChange, setSomeChange] = useState(true);
     // Doesn't matter if someChange is set to true or false
     // What matters is that its value is toggled whenever categories is changed in the DB
@@ -18,20 +18,20 @@ function MainDisplayer() {
     };
 
     function showAddExpenseModal(category) {
-        setExpenseFormZIndex("30");
+        setExpenseFormZIndex(30);
         setAddExpenseCategory(category);
     };
 
     function hideAddExpenseModal() {
-        setExpenseFormZIndex("10");
+        setExpenseFormZIndex(10);
     };
 
     function showAddBudgetModal() {
-        setBudgetFormZIndex("30");
+        setBudgetFormZIndex(30);
     };
 
     function hideAddBudgetModal() {
-        setBudgetFormZIndex("10");
+        setBudgetFormZIndex(10);
     };
 
     useEffect(() => {
@@ -49,7 +49,7 @@ function MainDisplayer() {
     }
 
     return (
-        <div className = "relative z-0 h-full border border-black">
+        <div className = "relative z-0 h-full">
             <Categories categories = {categories} onAddExpenseClick = {showAddExpenseModal} onAddBudgetClick = {showAddBudgetModal} />
             <AddExpenseModal category = {addExpenseCategory} myZVal = {expenseFormZIndex} onCancelClick = {hideAddExpenseModal} toggleSomeChange = {toggleSomeChange} />
             <AddBudgetModal myZVal = {budgetFormZIndex} onCancelClick = {hideAddBudgetModal} toggleSomeChange = {toggleSomeChange} />

@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 
 function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
     return (
-        <div className = "p-12 flex flex-col gap-y-8 absolute left-0 top-0 h-full w-full z-20 bg-pink-200">
-            <div className = "flex items-center justify-around">
-                <div className = "text-5xl font-semibold border border-yellow-300 pb-2">
-                    Budgets
+        <div className = "p-12 flex flex-col gap-y-8 absolute left-0 top-0 w-full h-full z-20 bg-gray-50 overflow-y-auto">
+            <div className = "flex flex-col my-sm:flex-row my-sm:justify-around items-center gap-y-2">
+                <div className = "text-4xl my-sm:text-5xl font-semibold pb-2">
+                    Categories
                 </div>
 
                 <button className = "btn btn-v2 h-fit" onClick = {onAddBudgetClick}>
-                    Add Budget
+                    Add Category
                 </button>
             </div>
 
