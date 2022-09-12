@@ -22,8 +22,8 @@ function AddExpenseModal({ category, myZVal, onCancelClick, toggleSomeChange }) 
     };
 
     return (
-        <div className = "flex items-center justify-center bg-black/30 absolute left-0 top-0 w-full h-full overflow-y-auto" style = {{zIndex: Number(myZVal)}}>
-            <form onSubmit = {handleSubmit} className = "m-4 w-full max-w-sm flex flex-col gap-y-8 p-6 rounded-md bg-blue-50">
+        <div className = "flex items-start justify-center bg-black/30 absolute left-0 top-0 w-full h-full overflow-y-auto" style = {{zIndex: Number(myZVal)}}>
+            <form onSubmit = {handleSubmit} className = "mx-4 my-8 w-full max-w-sm flex flex-col gap-y-8 p-6 rounded-md bg-blue-50">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className = "w-8 h-8 fill-red-500 stroke-white self-end cursor-pointer" onClick = {onCancelClick}>
                     <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clipRule="evenodd" />
                 </svg>
@@ -32,7 +32,7 @@ function AddExpenseModal({ category, myZVal, onCancelClick, toggleSomeChange }) 
                     <label htmlFor = "description" className = "text-lg font-medium">
                         Description*
                     </label>
-                    <textarea id = "description" value = {description} onChange = {e => {setDescription(e.target.value)}} className = "p-1">
+                    <textarea id = "description" value = {description} onChange = {e => {setDescription(e.target.value)}} rows = {3} className = "p-1 resize-y min-h-[32px]">
                     </textarea>
                 </div>
 
