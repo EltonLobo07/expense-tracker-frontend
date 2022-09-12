@@ -17,9 +17,11 @@ function MainDisplayer() {
         setSomeChange(!someChange);
     };
 
-    function showAddExpenseModal(category) {
-        setExpenseFormZIndex(30);
-        setAddExpenseCategory(category);
+    function showAddExpenseModal(e) {
+        if (e.target.dataset?.category !== undefined) {
+            setExpenseFormZIndex(30);
+            setAddExpenseCategory(e.target.dataset.category);
+        }
     };
 
     function hideAddExpenseModal() {

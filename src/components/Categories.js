@@ -15,9 +15,9 @@ function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
                 </button>
             </div>
 
-            <div className = "flex items-center flex-col gap-y-4 py-4">
+            <div className = "flex items-center flex-col gap-y-4 py-4 border border-black" onClick = {onAddExpenseClick}>
                 {
-                    categories.map(category => <Category key = {category._id} category = {category} onAddExpenseClick = {onAddExpenseClick} />)
+                    categories.map(category => <Category key = {category._id} category = {category} />)
                 }
             </div>
         </div>

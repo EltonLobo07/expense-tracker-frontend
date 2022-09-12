@@ -2,11 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-function CategoryComponent({ category, onAddExpenseClick }) {
+function CategoryComponent({ category }) {
     const navigate = useNavigate();
 
+    function onClick(e) {
+        if (e.target.tagName !== "BUTTON")
+            navigate(`category/${category._id}`);
+    };
+
     return (
-        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md">
+        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md cursor-pointer hover:scale-105 transition-transform duration-300" onClick = {onClick}>
             <div className = "flex flex-col gap-y-2 my-xsm:flex-row my-xsm:justify-between">
                 <div className = "capitalize font-medium text-lg">
                     {category.name}
@@ -22,22 +27,15 @@ function CategoryComponent({ category, onAddExpenseClick }) {
                 </div>
             </div>
 
-            <div className = "flex justify-end gap-x-4">
-                <button className = "btn btn-v1" onClick = {() => onAddExpenseClick(category.name)}>
-                    Add Expense
-                </button>
-
-                <button className = "btn btn-v1" onClick = {() => navigate(`category/${category._id}`)}>
-                    View Expenses
-                </button>
-            </div>
+            <button className = "btn btn-v1 self-end" data-category = {category.name}>
+                Add Expense
+            </button>
         </div>
     );
 };
 
 CategoryComponent.propTypes = {
-    category: PropTypes.object.isRequired,
-    onAddExpenseClick: PropTypes.func.isRequired
+    category: PropTypes.object.isRequired
 };
 
 export default CategoryComponent;
