@@ -7,8 +7,12 @@ function ExpenseComponent({ expense }) {
 
     const expenseDate = new Date(expense.date); 
 
+    function gotoExpense(e) {
+        navigate(`/expense/${expense._id}`);
+    };
+
     return (
-        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md cursor-pointer hover:scale-105 transition-transform duration-300" onClick = {() => navigate(`/expense/${expense._id}`)}>
+        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md cursor-pointer hover:scale-105 transition-transform duration-300" onClick = {gotoExpense}>
             <div className = "font-medium line-clamp-2">
                 {expense.description}
             </div>
