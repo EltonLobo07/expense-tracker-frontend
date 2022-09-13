@@ -5,27 +5,21 @@ import { useNavigate } from "react-router-dom";
 function ExpenseComponent({ expense }) {
     const navigate = useNavigate();
 
+    const expenseDate = new Date(expense.date); 
+
     return (
-        <div className = "border border-green-300 flex flex-col gap-y-2 p-2">
-            <div>
-                Description: {expense.description}
+        <div className = "w-full max-w-xl flex flex-col gap-y-4 p-4 bg-white rounded-md shadow-md cursor-pointer hover:scale-105 transition-transform duration-300" onClick = {() => navigate(`/expense/${expense._id}`)}>
+            <div className = "font-medium line-clamp-2">
+                {expense.description}
             </div>
 
             <div>
-                Amount: ${expense.amount}
+                {`${String(expenseDate.getDate()).padStart(2, "0")}/${String(expenseDate.getMonth() + 1).padStart(2, "0")}/${expenseDate.getFullYear()}`}
             </div>
 
-            <div>
-                Date: {expense.date}
+            <div className = "font-medium text-lg">
+                {`$${expense.amount}`}
             </div>
-
-            <div>
-                Added on: {expense.added}
-            </div>
-
-            <button className = "btn btn-v1 w-fit" onClick = {() => navigate(`/expense/${expense._id}`)}>
-                View Expense
-            </button>
         </div>
     );
 };

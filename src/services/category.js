@@ -10,6 +10,11 @@ function getAllCategories() {
 function addCategory(data) {
     return axios.post(BASE_URL, data)
                 .then(response => response.data);
-}
+};
 
-export default {getAllCategories, addCategory}; 
+function getOneCategory(categoryId) {
+    return axios.get(`${BASE_URL}/${categoryId}`)
+                .then(response => response.data);
+};
+
+export default {getAllCategories, addCategory, getOneCategory}; 
