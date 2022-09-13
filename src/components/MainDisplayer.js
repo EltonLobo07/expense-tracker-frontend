@@ -24,16 +24,20 @@ function MainDisplayer() {
         }
     };
 
-    function hideAddExpenseModal() {
-        setExpenseFormZIndex(10);
+    function hideAddExpenseModal(e) {
+        if (e.target.dataset?.cancel === "yes" || e.target.tagName === "path") 
+        // svg element or an element with data attribute of cancel set to yes
+            setExpenseFormZIndex(10);
     };
 
     function showAddBudgetModal() {
         setBudgetFormZIndex(30);
     };
 
-    function hideAddBudgetModal() {
-        setBudgetFormZIndex(10);
+    function hideAddBudgetModal(e) {
+        if (e.target.dataset?.cancel === "yes" || e.target.tagName === "path") 
+        // svg element or an element with data attribute of cancel set to yes
+            setBudgetFormZIndex(10);
     };
 
     useEffect(() => {
