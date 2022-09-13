@@ -18,8 +18,8 @@ function deleteOneExpense({ expenseId }) {
     return axios.delete(`${BASE_URL}/${expenseId}`);
 };
 
-function updateExpense(data) {
-    return axios.put(`${BASE_URL}/${this}`, data)
+function updateExpense(expenseId, data) {
+    return axios.put(`${BASE_URL}/${expenseId}`, data)
                 .then(response => response.data)
 };
 

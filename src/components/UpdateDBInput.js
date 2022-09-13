@@ -17,25 +17,27 @@ function UpdateDBInput({ initialValue, valueName, service, inputType, inputId, t
     };
 
     return (
-        <div>
-            <label htmlFor = {inputId} className = "capitalize">
-                {`${valueName}: ${textBeforeInput}`}
-            </label>
+        <div className = "flex gap-x-2 items-start border border-black">
+            <div className = "flex flex-col gap-y-2 w-[150px]">
+                <label htmlFor = {inputId} className = "capitalize">
+                    {`${valueName}: ${textBeforeInput}`}
+                </label>
+
+                <button className = "btn btn-v1 text-base" onClick = {handleClick}>
+                    {
+                        `${update ? "Save" : "Update"} ${valueName}`
+                    }
+                </button>
+            </div>
 
             {
                 inputType === "textarea" ?
-                <textarea id = {inputId} value = {value} onChange = {e => setValue(e.target.value)} disabled = {!update}>
+                <textarea id = {inputId} value = {value} onChange = {e => setValue(e.target.value)} disabled = {!update} className = "w-[150px] h-full">
                     {value}
                 </textarea> 
                 :
-                <input type = {inputType} id = {inputId} value = {value} onChange = {e => setValue(e.target.value)} disabled = {!update} />
+                <input type = {inputType} id = {inputId} value = {value} onChange = {e => setValue(e.target.value)} disabled = {!update} className = "w-[150px]" />
             }
-            
-            <button className = "btn btn-v1" onClick = {handleClick}>
-                {
-                    `${update ? "Save" : "Update"} ${valueName}`
-                }
-            </button>
         </div>
     );
 };
