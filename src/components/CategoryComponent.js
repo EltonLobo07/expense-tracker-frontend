@@ -7,7 +7,7 @@ function CategoryComponent({ category }) {
 
     function onClick(e) {
         if (e.target.tagName !== "BUTTON")
-            navigate(`category/${category._id}`);
+            navigate(`/categories/${category._id}`);
     };
 
     const percentUsed = category.total / category.limit;

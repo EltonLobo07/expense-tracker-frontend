@@ -8,7 +8,7 @@ function ExpenseComponent({ expense }) {
     const expenseDate = new Date(expense.date); 
 
     function gotoExpense(e) {
-        navigate(`/expense/${expense._id}`);
+        navigate(`/expense-${expense._id}`);
     };
 
     return (

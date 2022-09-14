@@ -19,8 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Routes>
             <Route path = "/" element = {<App />}>
                 <Route index element = {<MainDisplayer />} />
-                <Route path = "category/:categoryId" element = {<CategoryPage />} />
-                <Route path = "expense/:expenseId" element = {<ExpensePage />} />
+                <Route path = "categories" element = {<MainDisplayer />} />
+                <Route path = "categories/:categoryId" element = {<CategoryPage />} />
+                <Route path = "expense-:expenseId" element = {<ExpensePage />} />
             </Route>
             <Route path = "*" element = {<UnknownPath />} />
         </Routes>
