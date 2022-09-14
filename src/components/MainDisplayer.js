@@ -58,7 +58,7 @@ function MainDisplayer() {
         <div className = "relative z-0 h-screen">
             <Categories categories = {categories} onAddExpenseClick = {showAddExpenseModal} onAddBudgetClick = {showAddBudgetModal} />
             <AddExpenseModal category = {addExpenseCategory} myZVal = {expenseFormZIndex} onCancelClick = {hideAddExpenseModal} toggleSomeChange = {toggleSomeChange} />
-            <AddBudgetModal myZVal = {budgetFormZIndex} onCancelClick = {hideAddBudgetModal} toggleSomeChange = {toggleSomeChange} />
+            <AddBudgetModal myZVal = {budgetFormZIndex} onCancelClick = {hideAddBudgetModal} categories = {categories} setCategories = {setCategories} setBudgetFormZIndex = {setBudgetFormZIndex} />
         </div>
     );
 };

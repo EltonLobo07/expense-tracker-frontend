@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import categoryService from "../services/category";
 
-function AddBudgetModal({ myZVal, onCancelClick, toggleSomeChange }) {
+function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setBudgetFormZIndex }) {
     const [categoryName, setCategoryName] = useState("");
     const [limit, setLimit] = useState("");
 
@@ -10,12 +10,15 @@ function AddBudgetModal({ myZVal, onCancelClick, toggleSomeChange }) {
         e.preventDefault();
 
         categoryService.addCategory({name: categoryName, limit: Number(limit)})
-                       .then(() => {
+                       .then((newCategoryData) => {
                         alert("Category added!");
-                        onCancelClick();
-                        toggleSomeChange();
+                        setBudgetFormZIndex(10);
+                        setCategories([...categories, newCategoryData]);
                        })
-                       .catch(err => console.log(err.message));
+                       .catch(err => console.log(err.message))
+                       
+        setCategoryName("");
+        setLimit("");
     };
 
     return (
@@ -50,7 +53,9 @@ function AddBudgetModal({ myZVal, onCancelClick, toggleSomeChange }) {
 AddBudgetModal.propType = {
     myZVal: PropTypes.string.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    toggleSomeChange: PropTypes.func.isRequired
+    categories: PropTypes.object.isRequired,
+    setCategories: PropTypes.func.isRequired,
+    setBudgetFormZIndex: PropTypes.func.isRequired
 };
 
 export default AddBudgetModal;
