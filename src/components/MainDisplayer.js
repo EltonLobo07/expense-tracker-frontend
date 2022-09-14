@@ -9,13 +9,8 @@ function MainDisplayer() {
     const [expenseFormZIndex, setExpenseFormZIndex] = useState(10);
     const [addExpenseCategory, setAddExpenseCategory] = useState(null);
     const [budgetFormZIndex, setBudgetFormZIndex] = useState(10);
-    const [someChange, setSomeChange] = useState(true);
     // Doesn't matter if someChange is set to true or false
     // What matters is that its value is toggled whenever categories is changed in the DB
-
-    function toggleSomeChange() {
-        setSomeChange(!someChange);
-    };
 
     function showAddExpenseModal(e) {
         if (e.target.dataset?.category !== undefined) {
@@ -44,7 +39,7 @@ function MainDisplayer() {
         CategoryService.getAllCategories()
                        .then(categories => setCategories(categories))
                        .catch(err => console.log(err.message));
-    }, [someChange]);
+    }, []);
 
     if (categories === null) {
         return (
@@ -56,9 +51,22 @@ function MainDisplayer() {
 
     return (
         <div className = "relative z-0 h-screen">
-            <Categories categories = {categories} onAddExpenseClick = {showAddExpenseModal} onAddBudgetClick = {showAddBudgetModal} />
-            <AddExpenseModal category = {addExpenseCategory} myZVal = {expenseFormZIndex} onCancelClick = {hideAddExpenseModal} toggleSomeChange = {toggleSomeChange} />
-            <AddBudgetModal myZVal = {budgetFormZIndex} onCancelClick = {hideAddBudgetModal} categories = {categories} setCategories = {setCategories} setBudgetFormZIndex = {setBudgetFormZIndex} />
+            <Categories categories = {categories}
+                        onAddExpenseClick = {showAddExpenseModal} 
+                        onAddBudgetClick = {showAddBudgetModal} />
+
+            <AddExpenseModal myZVal = {expenseFormZIndex} 
+                             onCancelClick = {hideAddExpenseModal} 
+                             categories = {categories} 
+                             setCategories = {setCategories} 
+                             categoryName = {addExpenseCategory} 
+                             setExpenseFormZIndex = {setExpenseFormZIndex} />
+
+            <AddBudgetModal myZVal = {budgetFormZIndex} 
+                            onCancelClick = {hideAddBudgetModal} 
+                            categories = {categories} 
+                            setCategories = {setCategories} 
+                            setBudgetFormZIndex = {setBudgetFormZIndex} />
         </div>
     );
 };

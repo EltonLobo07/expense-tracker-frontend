@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import expenseService from "../services/expense";
 
-function AddExpenseModal({ category, myZVal, onCancelClick, toggleSomeChange }) {
+function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex }) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        expenseService.addExpense({description, amount: Number(amount), category})
+        expenseService.addExpense({description, amount: Number(amount), category: categoryName})
                       .then(expense => {
                         alert("Expense added!");
-                        onCancelClick();
-                        toggleSomeChange();
+                        setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
+                        setExpenseFormZIndex(10);
                       })
                       .catch(err => console.log(err.message));
 
@@ -48,7 +48,7 @@ function AddExpenseModal({ category, myZVal, onCancelClick, toggleSomeChange }) 
                         Category:
                     </div>
                     <div className = "capitalize">
-                        {category}
+                        {categoryName}
                     </div>
                 </div>
 
@@ -61,10 +61,12 @@ function AddExpenseModal({ category, myZVal, onCancelClick, toggleSomeChange }) 
 };
 
 AddExpenseModal.propType = {
-    category: PropTypes.string.isRequired,
     myZVal: PropTypes.string.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    toggleSomeChange: PropTypes.func.isRequired
+    categories: PropTypes.object.isRequired,
+    setCategories: PropTypes.func.isRequired,
+    categoryName: PropTypes.string,
+    setExpenseFormZIndex: PropTypes.func.isRequired
 };
 
 export default AddExpenseModal;
