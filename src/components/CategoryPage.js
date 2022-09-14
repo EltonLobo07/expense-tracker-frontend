@@ -54,7 +54,7 @@ function CategoryPage() {
                     </span> 
                 </div>
 
-                <div className = "w-full h-2 bg-gray-200 rounded-lg">
+                <div className = "w-full h-2 min-w-[300px] bg-gray-200 rounded-lg">
                     <div className = "h-full rounded-lg" style = {{
                         width: `${Math.min(100, percentUsed * 100)}%`,
                         backgroundColor: generateBarProgressColor()
@@ -63,7 +63,11 @@ function CategoryPage() {
                 </div>
 
                 {
-
+                    expenses.length === 0 ?
+                    (<div className = "text-lg">
+                        No expenses
+                    </div>) 
+                    :
                     expenses.map(expense => <Expense key = {expense._id} expense = {expense} />)
                 }
             </div>

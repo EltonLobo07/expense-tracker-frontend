@@ -34,6 +34,9 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                     </label>
                     <textarea id = "description" value = {description} onChange = {e => {setDescription(e.target.value)}} rows = {3} className = "p-1 resize-y min-h-[32px]">
                     </textarea>
+                    <div>
+                        Description must be atleast 5 characters long
+                    </div>
                 </div>
 
                 <div className = "flex flex-col gap-y-1">
@@ -41,6 +44,9 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                         Amount*
                     </label>
                     <input id = "amount" type = "number" value = {amount} onChange = {e => setAmount(e.target.value)} className = "p-1" />
+                    <div>
+                        Amount cannot be 0
+                    </div>
                 </div>
                 
                 <div className = "flex gap-x-2 text-lg font-medium">

@@ -33,6 +33,9 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
                         Category name*
                     </label>
                     <input id = "categoryName" value = {categoryName} onChange = {e => {setCategoryName(e.target.value)}} className = "p-1" />
+                    <div>
+                        Name must be atleast 2 characters long
+                    </div>
                 </div>
 
                 <div className = "flex flex-col gap-y-1">
@@ -40,6 +43,9 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
                         Category limit amount*
                     </label>
                     <input id = "limit" type = "number" value = {limit} onChange = {e => setLimit(e.target.value)} className = "p-1" />
+                    <div>
+                        Limit cannot be 0
+                    </div>
                 </div>
 
                 <button type = "submit" className = "btn btn-v1">
