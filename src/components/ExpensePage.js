@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import expenseService from "../services/expense";
-import categoryService from "../services/category";
 import UnknownPath  from "./UnknownPath";
 
 function ExpensePage() {
@@ -11,7 +10,7 @@ function ExpensePage() {
     const [amount, setAmount] = useState("");
     const [prevDescription, setPrevDescription] = useState("");
     const [prevAmount, setPrevAmount] = useState("");
-    const [categoryId, setCategoryId] = useState(null);
+    const [categoryName, setCategoryName] = useState(null);
     const [edit, setEdit] = useState(false);
     const { expenseId } = useParams(); 
     const navigate = useNavigate();
@@ -24,7 +23,7 @@ function ExpensePage() {
                         setAmount(expense.amount);
                         setPrevDescription(expense.description);
                         setPrevAmount(expense.amount);
-                        setCategoryId(expense.category);
+                        setCategoryName(expense.category.name);
                       })
                       .catch(err => {
                         if (err.response.status === 404)
@@ -129,10 +128,10 @@ function ExpensePage() {
 
                 <div>
                     <div className = "text-lg font-medium">
-                        Category Id
+                        Category Name
                     </div>
-                    <div>
-                        {categoryId}
+                    <div className = "capitalize">
+                        {categoryName}
                     </div>
                 </div>
 
