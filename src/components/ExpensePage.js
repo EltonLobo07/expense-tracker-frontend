@@ -12,7 +12,7 @@ function ExpensePage() {
     const [amount, setAmount] = useState("");
     const [prevDescription, setPrevDescription] = useState("");
     const [prevAmount, setPrevAmount] = useState("");
-    const [categoryName, setCategoryName] = useState(null);
+    const [category, setCategory] = useState(null);
     const [errMsg, setErrMsg] = useState("");
     const timeoutId = useRef(null);
     const [edit, setEdit] = useState(false);
@@ -37,7 +37,7 @@ function ExpensePage() {
                         setAmount(expense.amount);
                         setPrevDescription(expense.description);
                         setPrevAmount(expense.amount);
-                        setCategoryName(expense.category.name);
+                        setCategory(expense.category);
                       })
                       .catch(err => {
                         if (err.response.status === 404)
@@ -51,7 +51,7 @@ function ExpensePage() {
 
     function handleDeleteButtonClick() {
         expenseService.deleteOneExpense({expenseId})
-                      .then(() => navigate(`/categories/${category !== null ? category._id : ""}`))
+                      .then(() => navigate(`/categories/${category._id}`))
                       .catch(err => setAndCloseErrDisplayer(err));
     };
 
@@ -147,7 +147,7 @@ function ExpensePage() {
                         Category Name
                     </div>
                     <div className = "capitalize">
-                        {categoryName}
+                        {category.name}
                     </div>
                 </div>
 

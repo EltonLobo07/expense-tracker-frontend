@@ -11,7 +11,7 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
 
         expenseService.addExpense({description, amount: Number(amount), category: categoryName})
                       .then(expense => {
-                        alert("Expense added!");
+                        setAndCloseErrDisplayer("Expense added", false);
                         setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
                         setExpenseFormZIndex(10);
                       })

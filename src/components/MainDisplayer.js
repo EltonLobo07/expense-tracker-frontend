@@ -12,6 +12,7 @@ function MainDisplayer() {
     const [addExpenseCategory, setAddExpenseCategory] = useState(null);
     const [budgetFormZIndex, setBudgetFormZIndex] = useState(10);
     const [errMsg, setErrMsg] = useState("");
+    const [isErrMsg, setIsErrMsg] = useState(true);
     const [loadingPageMsg, setLoadingPageMsg] = useState("Loading...");
     const timeoutId = useRef(null);
 
@@ -38,13 +39,21 @@ function MainDisplayer() {
             setBudgetFormZIndex(10);
     };
 
-    function setAndCloseErrDisplayer(err) {
-        setErrMsg(err?.response?.data?.error || err.message);
+    function setAndCloseErrDisplayer(err, isErrMsg = true) {
+        if (isErrMsg)
+            setErrMsg(err?.response?.data?.error || err.message);
+        else {
+            setErrMsg(err);
+            setIsErrMsg(isErrMsg);
+        }
         
         if (timeoutId.current !== null)
             clearInterval(timeoutId.current);
 
-        timeoutId.current = setTimeout(() => setErrMsg(""), 5000);
+        timeoutId.current = setTimeout(() => {
+            setErrMsg("");
+            setIsErrMsg(true);
+        }, 5000);
     };
 
     useEffect(() => {
@@ -62,7 +71,7 @@ function MainDisplayer() {
 
     return (
         <div className = "relative z-0 h-screen">
-            <DisplayError msg = {errMsg} />
+            <DisplayError msg = {errMsg} isErr = {isErrMsg} />
 
             <Categories categories = {categories}
                         onAddExpenseClick = {showAddExpenseModal} 

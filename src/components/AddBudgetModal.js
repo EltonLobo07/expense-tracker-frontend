@@ -11,11 +11,11 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
 
         categoryService.addCategory({name: categoryName, limit: Number(limit)})
                        .then((newCategoryData) => {
-                            alert("Category added!");
+                            setAndCloseErrDisplayer("Category added", false);
                             setBudgetFormZIndex(10);
                             setCategories([...categories, newCategoryData]);
                        })
-                       .catch(err => setAndCloseErrDisplayer(err))
+                       .catch(err => setAndCloseErrDisplayer(err));
                        
         setCategoryName("");
         setLimit("");
