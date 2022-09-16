@@ -56,6 +56,19 @@ function CategoryPage() {
         return "#4caf50"; // Same as tailwind green-500
     };
 
+    function generateStatusStr() {
+        if (percentUsed >= 1)
+            return "Over";
+
+        if (percentUsed >= 0.75) 
+            return "Dangerously close";
+
+        if (percentUsed >= 0.5)
+            return "Close";
+
+        return "Good";
+    };
+
     return (
         <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 h-screen overflow-y-auto">
             <DisplayError msg = {errMsg} />
@@ -80,6 +93,14 @@ function CategoryPage() {
                         backgroundColor: generateBarProgressColor()
                     }}>
                     </div>
+                </div>
+
+                <div className = "font-medium text-lg" style = {{
+                    color: generateBarProgressColor()
+                }}>
+                    {
+                        generateStatusStr()
+                    }
                 </div>
 
                 {

@@ -152,7 +152,7 @@ function ExpensePage() {
                     </div>
                 </div>
 
-                <button className = "btn btn-v1 w-fit" onClick = {handleDeleteButtonClick}>
+                <button className = "btn btn-v1 w-fit bg-red-600 border-red-600 hover:bg-red-700 active:bg-red-800" onClick = {handleDeleteButtonClick}>
                     Delete Expense
                 </button>
             </div>
