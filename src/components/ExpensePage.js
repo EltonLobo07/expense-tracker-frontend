@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import expenseService from "../services/expense";
+import DisplayError from "./DisplayError";
 import UnknownPath  from "./UnknownPath";
 
 function ExpensePage() {
@@ -11,9 +12,20 @@ function ExpensePage() {
     const [prevDescription, setPrevDescription] = useState("");
     const [prevAmount, setPrevAmount] = useState("");
     const [categoryName, setCategoryName] = useState(null);
+    const [errMsg, setErrMsg] = useState("");
+    const timeoutId = useRef(null);
     const [edit, setEdit] = useState(false);
     const { expenseId } = useParams(); 
     const navigate = useNavigate();
+
+    function setAndCloseErrDisplayer(err) {
+        setErrMsg(err?.response?.data?.error || err.message);
+        
+        if (timeoutId.current !== null)
+            clearInterval(timeoutId.current);
+
+        timeoutId.current = setTimeout(() => setErrMsg(""), 5000);
+    };
 
     useEffect(() => {
         expenseService.getOneExpense({expenseId})
@@ -28,13 +40,15 @@ function ExpensePage() {
                       .catch(err => {
                         if (err.response.status === 404)
                             setPageNotFound(true);
+                        else 
+                            setAndCloseErrDisplayer(err);
                       });
     }, []);
 
     function handleDeleteButtonClick() {
         expenseService.deleteOneExpense({expenseId})
                       .then(() => navigate(`/categories/${category !== null ? category._id : ""}`))
-                      .catch(err => console.log(err.message));
+                      .catch(err => setAndCloseErrDisplayer(err));
     };
 
     if (pageNotFound)
@@ -42,8 +56,12 @@ function ExpensePage() {
 
     if (expenseDates.current === null) 
         return (
-            <div>
-                Loading...
+            <div className = "h-screen flex justify-center items-center bg-gray-50">
+                <DisplayError msg = {errMsg} />
+
+                <div className = "text-lg">
+                    Loading...
+                </div>
             </div>
         );
 
@@ -56,7 +74,7 @@ function ExpensePage() {
                 setPrevAmount(amount);
             }
             catch(err) {
-                console.log(err.message);
+                setAndCloseErrDisplayer(err);
                 setDescription(prevDescription);
                 setAmount(prevAmount);
             }
@@ -70,6 +88,8 @@ function ExpensePage() {
 
     return (
         <div className = "flex justify-center h-screen bg-gray-50">
+            <DisplayError msg = {errMsg} />
+
             <div className = "mx-4 my-8 w-full max-w-lg flex flex-col gap-y-4 p-6 rounded-md bg-white overflow-y-auto">
                 <button className = "btn btn-v1 self-center" onClick = {toggleEdit}>
                     {`${edit ? "Save" : "Edit"} expense`}

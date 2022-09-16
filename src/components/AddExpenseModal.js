@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import expenseService from "../services/expense";
 
-function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex }) {
+function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex, setAndCloseErrDisplayer }) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
 
@@ -15,7 +15,7 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                         setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
                         setExpenseFormZIndex(10);
                       })
-                      .catch(err => console.log(err.message));
+                      .catch(err => setAndCloseErrDisplayer(err));
 
         setDescription("");
         setAmount("");
@@ -82,7 +82,8 @@ AddExpenseModal.propType = {
     categories: PropTypes.object.isRequired,
     setCategories: PropTypes.func.isRequired,
     categoryName: PropTypes.string,
-    setExpenseFormZIndex: PropTypes.func.isRequired
+    setExpenseFormZIndex: PropTypes.func.isRequired,
+    setAndCloseErrDisplayer: PropTypes.func.isRequired
 };
 
 export default AddExpenseModal;

@@ -1,29 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Expense from "./ExpenseComponent";
 import expenseService from "../services/expense";
 import categoryService from "../services/category";
+import DisplayError from "./DisplayError";
 
 function CategoryPage() {
     const { categoryId } = useParams();
     const [expenses, setExpenses] = useState(null);
     const [category, setCategory] = useState(null);
+    const [errMsg, setErrMsg] = useState("");
+    const timeoutId = useRef(null);
+
+    function setAndCloseErrDisplayer(err) {
+        setErrMsg(err?.response?.data?.error || err.message);
+        
+        if (timeoutId.current !== null)
+            clearInterval(timeoutId.current);
+
+        timeoutId.current = setTimeout(() => setErrMsg(""), 5000);
+    };
 
     useEffect(() => {
         expenseService.getOneCategoryExpenses({categoryId})
                       .then(expenses => setExpenses(expenses))
-                      .catch(err => console.log(err.message));
+                      .catch(err => setAndCloseErrDisplayer(err));
     }, []);
 
     useEffect(() => {
         categoryService.getOneCategory(categoryId)
                        .then(category => setCategory(category))
-                       .catch(err => console.log(err.message));
+                       .catch(err => setAndCloseErrDisplayer(err));
     }, []);
 
     if (expenses === null || category === null)
         return (
-            <div>Loading...</div>
+            <div className = "h-screen flex justify-center items-center bg-gray-50">
+                <DisplayError msg = {errMsg} />
+
+                <div className = "text-lg">
+                    Loading...
+                </div>
+            </div>
         );
 
     const percentUsed = category.total / category.limit;
@@ -40,6 +58,8 @@ function CategoryPage() {
 
     return (
         <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 h-screen overflow-y-auto">
+            <DisplayError msg = {errMsg} />
+            
             <div className = "text-4xl my-sm:text-5xl font-semibold pb-2 capitalize">
                 {category.name}
             </div>
