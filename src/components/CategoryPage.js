@@ -4,12 +4,14 @@ import Expense from "./ExpenseComponent";
 import expenseService from "../services/expense";
 import categoryService from "../services/category";
 import DisplayError from "./DisplayError";
+import LoadingPage from "./LoadingPage";
 
 function CategoryPage() {
     const { categoryId } = useParams();
     const [expenses, setExpenses] = useState(null);
     const [category, setCategory] = useState(null);
     const [errMsg, setErrMsg] = useState("");
+    const [loadingPageMsg, setLoadingPageMsg] = useState("Loading...");
     const timeoutId = useRef(null);
 
     function setAndCloseErrDisplayer(err) {
@@ -24,25 +26,23 @@ function CategoryPage() {
     useEffect(() => {
         expenseService.getOneCategoryExpenses({categoryId})
                       .then(expenses => setExpenses(expenses))
-                      .catch(err => setAndCloseErrDisplayer(err));
+                      .catch(err => {
+                            setAndCloseErrDisplayer(err);
+                            setLoadingPageMsg("Something went wrong, please try again");
+                      });
     }, []);
 
     useEffect(() => {
         categoryService.getOneCategory(categoryId)
                        .then(category => setCategory(category))
-                       .catch(err => setAndCloseErrDisplayer(err));
+                       .catch(err => {
+                            setAndCloseErrDisplayer(err);
+                            setLoadingPageMsg("Something went wrong, please try again.");
+                       });
     }, []);
 
     if (expenses === null || category === null)
-        return (
-            <div className = "h-screen flex justify-center items-center bg-gray-50">
-                <DisplayError msg = {errMsg} />
-
-                <div className = "text-lg">
-                    Loading...
-                </div>
-            </div>
-        );
+        return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;
 
     const percentUsed = category.total / category.limit;
 

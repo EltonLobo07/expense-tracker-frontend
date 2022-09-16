@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import expenseService from "../services/expense";
 import DisplayError from "./DisplayError";
+import LoadingPage from "./LoadingPage";
 import UnknownPath  from "./UnknownPath";
 
 function ExpensePage() {
@@ -15,6 +16,7 @@ function ExpensePage() {
     const [errMsg, setErrMsg] = useState("");
     const timeoutId = useRef(null);
     const [edit, setEdit] = useState(false);
+    const [loadingPageMsg, setLoadingPageMsg] = useState("Loading...");
     const { expenseId } = useParams(); 
     const navigate = useNavigate();
 
@@ -40,8 +42,10 @@ function ExpensePage() {
                       .catch(err => {
                         if (err.response.status === 404)
                             setPageNotFound(true);
-                        else 
+                        else {
                             setAndCloseErrDisplayer(err);
+                            setLoadingPageMsg("Something went wrong, please try again.");
+                        }
                       });
     }, []);
 
@@ -55,15 +59,7 @@ function ExpensePage() {
         return <UnknownPath />
 
     if (expenseDates.current === null) 
-        return (
-            <div className = "h-screen flex justify-center items-center bg-gray-50">
-                <DisplayError msg = {errMsg} />
-
-                <div className = "text-lg">
-                    Loading...
-                </div>
-            </div>
-        );
+        return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />
 
     async function toggleEdit() {
         if (edit) {

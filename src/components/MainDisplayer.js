@@ -4,6 +4,7 @@ import AddBudgetModal from "./AddBudgetModal";
 import AddExpenseModal from "./AddExpenseModal";
 import Categories from "./Categories";
 import DisplayError from "./DisplayError";
+import LoadingPage from "./LoadingPage";
 
 function MainDisplayer() {
     const [categories, setCategories] = useState(null);
@@ -11,6 +12,7 @@ function MainDisplayer() {
     const [addExpenseCategory, setAddExpenseCategory] = useState(null);
     const [budgetFormZIndex, setBudgetFormZIndex] = useState(10);
     const [errMsg, setErrMsg] = useState("");
+    const [loadingPageMsg, setLoadingPageMsg] = useState("Loading...");
     const timeoutId = useRef(null);
 
     function showAddExpenseModal(e) {
@@ -48,19 +50,14 @@ function MainDisplayer() {
     useEffect(() => {
         CategoryService.getAllCategories()
                        .then(categories => setCategories(categories))
-                       .catch(err => setAndCloseErrDisplayer(err));
+                       .catch(err => {
+                            setAndCloseErrDisplayer(err);
+                            setLoadingPageMsg("Something went wrong, please try again.");
+                       });
     }, []);
 
     if (categories === null) {
-        return (
-            <div className = "h-screen flex justify-center items-center bg-gray-50">
-                <DisplayError msg = {errMsg} />
-
-                <div className = "text-lg">
-                    Loading...
-                </div>
-            </div>
-        );
+        return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;
     }
 
     return (
