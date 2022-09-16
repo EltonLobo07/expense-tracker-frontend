@@ -4,6 +4,7 @@ import expenseService from "../services/expense";
 import DisplayError from "./DisplayError";
 import LoadingPage from "./LoadingPage";
 import UnknownPath  from "./UnknownPath";
+import { dateToMyStr } from "../helpers";
 
 function ExpensePage() {
     const expenseDates = useRef(null);
@@ -128,7 +129,7 @@ function ExpensePage() {
                         Date
                     </div>
                     <div>
-                        {`${String(expenseDate.getDate()).padStart(2, "0")}/${String(expenseDate.getMonth() + 1).padStart(2, "0")}/${expenseDate.getFullYear()}`}
+                        {dateToMyStr(expenseDate)}
                     </div>
                 </div>
 
@@ -138,7 +139,7 @@ function ExpensePage() {
                         Added on
                     </div>
                     <div>
-                        {`${String(expenseAdded.getDate()).padStart(2, "0")}/${String(expenseAdded.getMonth() + 1).padStart(2, "0")}/${expenseAdded.getFullYear()}`}
+                        {dateToMyStr(new Date(expenseAdded.getTime() - (new Date().getTimezoneOffset() * 60000)))}
                     </div>
                 </div>
 

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import expenseService from "../services/expense";
+import { dateToMyStr } from "../helpers";
 
 function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex, setAndCloseErrDisplayer }) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
+    const [date, setDate] = useState(dateToMyStr(new Date()));
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        expenseService.addExpense({description, amount: Number(amount), category: categoryName})
+        expenseService.addExpense({description, amount: Number(amount), category: categoryName, date})
                       .then(expense => {
                         setAndCloseErrDisplayer("Expense added", false);
                         setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
@@ -57,6 +59,13 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                         :
                         (<div className = "h-6"></div>)
                     }
+                </div>
+
+                <div className = "flex flex-col gap-y-1">
+                    <label htmlFor = "date" className = "text-lg font-medium">
+                        Date
+                    </label>
+                    <input id = "date" type = "date" value = {date} onChange = {e => setDate(e.target.value)} />
                 </div>
                 
                 <div className = "flex gap-x-2 text-lg font-medium">
