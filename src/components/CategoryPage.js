@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Expense from "./ExpenseComponent";
 import expenseService from "../services/expense";
 import categoryService from "../services/category";
@@ -13,6 +13,7 @@ function CategoryPage() {
     const [errMsg, setErrMsg] = useState("");
     const [loadingPageMsg, setLoadingPageMsg] = useState("Loading...");
     const timeoutId = useRef(null);
+    const navigate = useNavigate();
 
     function setAndCloseErrDisplayer(err) {
         setErrMsg(err?.response?.data?.error || err.message);
@@ -21,6 +22,18 @@ function CategoryPage() {
             clearInterval(timeoutId.current);
 
         timeoutId.current = setTimeout(() => setErrMsg(""), 5000);
+    };
+
+    async function handleCategoryDeleteClick() {
+        if (window.confirm(`Deleting this category will delete all of the expenses related to this category. If you wish to proceed, click "ok"`)) {
+            try {
+                await categoryService.deleteOneCategoryAndAllRelatedExpenses(categoryId);
+                navigate("/categories");
+            }
+            catch(err) {
+                setAndCloseErrDisplayer(err);
+            }
+        }
     };
 
     useEffect(() => {
@@ -56,19 +69,6 @@ function CategoryPage() {
         return "#4caf50"; // Same as tailwind green-500
     };
 
-    function generateStatusStr() {
-        if (percentUsed >= 1)
-            return "Over";
-
-        if (percentUsed >= 0.75) 
-            return "Dangerously close";
-
-        if (percentUsed >= 0.5)
-            return "Close";
-
-        return "Good";
-    };
-
     return (
         <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 h-screen overflow-y-auto">
             <DisplayError msg = {errMsg} />
@@ -78,6 +78,10 @@ function CategoryPage() {
             </div>
 
             <div className = "flex flex-col items-center gap-y-4 py-4">
+                <button onClick = {handleCategoryDeleteClick} className = "btn btn-v1 w-fit bg-red-600 border-red-600 hover:bg-red-700 active:bg-red-800">
+                    Delete this category
+                </button>
+
                 <div>
                     <span className = "font-medium text-lg">
                         {`$${category.total}`}
@@ -93,14 +97,6 @@ function CategoryPage() {
                         backgroundColor: generateBarProgressColor()
                     }}>
                     </div>
-                </div>
-
-                <div className = "font-medium text-lg" style = {{
-                    color: generateBarProgressColor()
-                }}>
-                    {
-                        generateStatusStr()
-                    }
                 </div>
 
                 {

@@ -32,7 +32,7 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
                     <label htmlFor = "categoryName" className = "text-lg font-medium">
                         Category name*
                     </label>
-                    <input id = "categoryName" value = {categoryName} onChange = {e => {setCategoryName(e.target.value)}} className = "p-1" />
+                    <input type = "text" id = "categoryName" value = {categoryName} onChange = {e => {setCategoryName(e.target.value)}} className = "p-1" />
                     {
                         categoryName.length < 2 ? 
                         (<div>

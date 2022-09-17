@@ -17,4 +17,9 @@ function getOneCategory(categoryId) {
                 .then(response => response.data);
 };
 
-export default {getAllCategories, addCategory, getOneCategory}; 
+function deleteOneCategoryAndAllRelatedExpenses(categoryId) {
+    return axios.delete(`${BASE_URL}/${categoryId}`)
+                .then(response => response.data);
+};
+
+export default {getAllCategories, addCategory, getOneCategory, deleteOneCategoryAndAllRelatedExpenses}; 
