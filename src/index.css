@@ -14,4 +14,8 @@
     .btn-v2 {
         @apply bg-white text-blue-700 hover:bg-gray-100 active:bg-gray-200;
     }
+
+    input[type = "text"], input[type = "number"], input[type = "date"], textarea {
+        @apply border-0;
+    }
 }
