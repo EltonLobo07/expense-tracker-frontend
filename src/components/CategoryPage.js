@@ -199,9 +199,9 @@ function CategoryPage() {
                         </div>
                     </fieldset>
 
-                    <div className = "flex gap-x-2 justify-center items-center">
+                    <div className = "flex flex-col gap-y-1 justify-center items-center">
                         <label htmlFor = "sortReverse" className = "text-lg font-medium">
-                            Reverse sort
+                            Sort order (decreasing)
                         </label>
                         <input type = "checkbox" id = "sortReverse" checked = {sortReverse} onChange = {() => setSortReverse(!sortReverse)} />
                     </div>

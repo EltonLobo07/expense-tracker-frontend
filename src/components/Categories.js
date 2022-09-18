@@ -1,8 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Category from "./CategoryComponent";
 import PropTypes from "prop-types";
 
+function orderCategories(sortByPercent, sortReverse, categories) {
+    if (!sortByPercent) 
+        return categories;
+
+    const mul = sortReverse ? -1 : 1;
+
+    const categoriesShallowCpy = categories.map(category => category);
+
+    categoriesShallowCpy.sort((cat1, cat2) => mul * ((cat1.total / cat1.limit) - (cat2.total / cat2.limit)));
+
+    return categoriesShallowCpy;
+};
+
 function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
+    const [sortByPercent, setSortByPercent] = useState(false);
+    const [sortReverse, setSortReverse] = useState(false);
+
+    const orderedCategories = orderCategories(sortByPercent, sortReverse, categories);
+
     return (
         <div className = "p-12 flex flex-col gap-y-8 absolute left-0 top-0 z-20 bg-gray-50 w-full h-full overflow-y-auto">
             <div className = "flex flex-col my-sm:flex-row my-sm:justify-around items-center gap-y-2">
@@ -15,9 +33,25 @@ function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
                 </button>
             </div>
 
+            <div className = "flex flex-col gap-y-4 items-center">
+                <div className = "flex flex-col gap-y-1 justify-center items-center">
+                    <label htmlFor = "sortByPercent" className = "text-lg font-medium">
+                        Sort by %    
+                    </label>
+                    <input type = "checkbox" id = "sortByPercent" checked = {sortByPercent} onChange = {() => {setSortByPercent(!sortByPercent)}} />                    
+                </div>
+
+                <div className = "flex flex-col gap-y-1 justify-center items-center">
+                    <label htmlFor = "sortReverse" className = "text-lg font-medium">
+                        Sort order (decreasing)
+                    </label>
+                    <input type = "checkbox" id = "sortReverse" checked = {sortReverse} onChange = {() => setSortReverse(!sortReverse)} />                    
+                </div>
+            </div>
+
             <div className = "flex items-center flex-col gap-y-4 py-4" onClick = {onAddExpenseClick}>
                 {
-                    categories.map(category => <Category key = {category._id} category = {category} />)
+                    orderedCategories.map(category => <Category key = {category._id} category = {category} />)
                 }
             </div>
         </div>
