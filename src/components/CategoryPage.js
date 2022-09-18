@@ -76,6 +76,19 @@ function CategoryPage() {
         }
     };
 
+    async function handleExpenseDeleteClick(e) {
+        if (e.target.dataset?.cancel === "yes") {
+            try {
+                const expenseId = e.target.dataset.expenseid;
+                await expenseService.deleteOneExpense({expenseId: expenseId});
+                setExpenses(expenses.filter(expense => expense._id !== expenseId));
+            }
+            catch(err) {
+                setAndCloseErrDisplayer(err);
+            }
+        }
+    };
+
     useEffect(() => {
         expenseService.getOneCategoryExpenses({categoryId})
                       .then(expenses => {
@@ -103,7 +116,7 @@ function CategoryPage() {
                             setAndCloseErrDisplayer(err);
                             setLoadingPageMsg("Something went wrong, please try again.");
                        });
-    }, []);
+    }, [expenses]);
 
     if (expenses === null || category === null)
         return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;
@@ -196,11 +209,17 @@ function CategoryPage() {
 
                 {
                     orderedExpenses.length === 0 ?
-                    (<div className = "text-lg">
-                        No expenses
-                    </div>) 
+                    (
+                        <div className = "text-lg">
+                            No expenses
+                        </div>
+                    ) 
                     :
-                    orderedExpenses.map(expense => <Expense key = {expense._id} expense = {expense} />)
+                    (
+                        <div className = "flex flex-col gap-y-4" onClick = {handleExpenseDeleteClick}>
+                            {orderedExpenses.map(expense => <Expense key = {expense._id} expense = {expense} />)}
+                        </div>
+                    )
                 }
             </div>
         </div>
