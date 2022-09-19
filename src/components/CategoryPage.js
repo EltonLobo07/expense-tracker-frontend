@@ -5,7 +5,7 @@ import expenseService from "../services/expense";
 import categoryService from "../services/category";
 import DisplayError from "./DisplayError";
 import LoadingPage from "./LoadingPage";
-import { dateToMyStr } from "../helpers";
+import { dateToMyStr, toggleDisableAndFocusIfPossible } from "../helpers";
 
 function generateBarProgressColor(percentUsed) {
     if (percentUsed >= 0.75)
@@ -42,10 +42,7 @@ function orderExpenses(expenses, startTime, endTime, radioBtnId, sortReverse) {
     return filteredExpenses;
 };
 
-function toggleDisableAndFocusIfPossible(ref) {
-    ref.current.disabled = !ref.current.disabled;
-    ref.current.focus();
-};
+
 
 function CategoryPage() {
     const { categoryId } = useParams();
@@ -190,7 +187,7 @@ function CategoryPage() {
                     )
                 }
 
-                <textarea className = "text-4xl my-sm:text-5xl font-semibold p-1 text-center w-full min-w-[300px]" disabled = {!editCategoryName} defaultValue = {category.name} ref = {categoryNameRef}>
+                <textarea className = "text-4xl my-sm:text-5xl font-semibold p-1 text-center w-full min-w-[300px] min-h-[56px]" disabled = {!editCategoryName} defaultValue = {category.name} ref = {categoryNameRef}>
                 </textarea>
             </div>
 
