@@ -42,6 +42,11 @@ function orderExpenses(expenses, startTime, endTime, radioBtnId, sortReverse) {
     return filteredExpenses;
 };
 
+function toggleDisableAndFocusIfPossible(ref) {
+    ref.current.disabled = !ref.current.disabled;
+    ref.current.focus();
+};
+
 function CategoryPage() {
     const { categoryId } = useParams();
     const [expenses, setExpenses] = useState(null);
@@ -53,7 +58,9 @@ function CategoryPage() {
     const [radioBtnId, setRadioBtnId] = useState("none");
     const [sortReverse, setSortReverse] = useState(false);
     const [editCategoryName, setEditCategoryName] = useState(false);
+    const [editCategoryLimit, setEditCategoryLimit] = useState(false);
     const categoryNameRef = useRef(null);
+    const categoryLimitRef = useRef(null);
     const timeoutId = useRef(null);
     const navigate = useNavigate();
 
@@ -124,22 +131,38 @@ function CategoryPage() {
         return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;
 
     async function handleCategoryNameEditClick() {
-        categoryNameRef.current.disabled = !categoryNameRef.current.disabled;
-        categoryNameRef.current.focus();
+        toggleDisableAndFocusIfPossible(categoryNameRef);
 
         if (editCategoryName) {
             try {
-                setCategory(await categoryService.updateOneCategory(category._id, {...category, name: categoryNameRef.current.value}));
+                setCategory(await categoryService.updateOneCategory(category._id, {name: categoryNameRef.current.value}));
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);
-                categoryNameRef.current.disabled = !categoryNameRef.current.disabled;
-                categoryNameRef.current.focus();
+                toggleDisableAndFocusIfPossible(categoryNameRef);
                 return;
             }
         }
 
         setEditCategoryName(!editCategoryName);  
+    };
+
+    async function handleCategoryLimitEditClick() {
+        console.log("Function called");
+        toggleDisableAndFocusIfPossible(categoryLimitRef);
+
+        if (editCategoryLimit) {
+            try {
+                setCategory(await categoryService.updateOneCategory(category._id, {limit: Number(categoryLimitRef.current.value)}));
+            }
+            catch (err) {
+                setAndCloseErrDisplayer(err);
+                toggleDisableAndFocusIfPossible(categoryLimitRef);
+                return;
+            }
+        }
+
+        setEditCategoryLimit(!editCategoryLimit);  
     };
 
     const percentUsed = category.total / category.limit;
@@ -150,24 +173,24 @@ function CategoryPage() {
         <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 h-screen overflow-y-auto">
             <DisplayError msg = {errMsg} />
             
-            <div className = "flex flex-col items-end">
+            <div className = "flex flex-col items-center gap-y-1">
                 {
                     editCategoryName ? 
                     (
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" strokeWidth="32" stroke="currentColor" className = "w-8 h-8 stroke-blue-700" onClick = {handleCategoryNameEditClick}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" strokeWidth="32" stroke="currentColor" className = "w-6 h-6 stroke-blue-700" onClick = {handleCategoryNameEditClick}>
                             <title>Save</title>
                             <path d="M380.93 57.37A32 32 0 00358.3 48H94.22A46.21 46.21 0 0048 94.22v323.56A46.21 46.21 0 0094.22 464h323.56A46.36 46.36 0 00464 417.78V153.7a32 32 0 00-9.37-22.63zM256 416a64 64 0 1164-64 63.92 63.92 0 01-64 64zm48-224H112a16 16 0 01-16-16v-64a16 16 0 0116-16h192a16 16 0 0116 16v64a16 16 0 01-16 16z" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     )
                     :
                     (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-8 h-8 stroke-blue-700" onClick = {handleCategoryNameEditClick}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 stroke-blue-700" onClick = {handleCategoryNameEditClick}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                         </svg>
                     )
                 }
 
-                <textarea className = "text-4xl my-sm:text-5xl font-semibold p-1 text-center break-all min-h-[64px]" rows = {1} disabled = {!editCategoryName} defaultValue = {category.name} ref = {categoryNameRef}>
+                <textarea className = "text-4xl my-sm:text-5xl font-semibold p-1 text-center w-full min-w-[300px]" disabled = {!editCategoryName} defaultValue = {category.name} ref = {categoryNameRef}>
                 </textarea>
             </div>
 
@@ -176,13 +199,40 @@ function CategoryPage() {
                     Delete this category
                 </button>
 
-                <div>
-                    <span className = "font-medium text-lg">
-                        {`$${category.total}`}
-                    </span>
-                    <span className = "text-gray-500">
-                        {` / $${category.limit}`}
-                    </span> 
+                <div className = "flex flex-col gap-y-1 text-lg">
+                    <div className = 'flex gap-x-2'>
+                        <span>
+                            Used
+                        </span>
+                        
+                        <span className = "font-medium">
+                            {`$ ${category.total}`}
+                        </span>
+                    </div>
+                    
+                    <div className = "flex gap-x-2 items-center">
+                        <label htmlFor = "limit" className = "text-lg">
+                            Limit
+                        </label>
+                        <span>
+                            $ <input type = "number" id = "limit"  defaultValue = {category.limit} className = "text-gray-500 w-24 p-1 text-lg" disabled = {!editCategoryLimit} ref = {categoryLimitRef} />
+                        </span>
+                        {
+                            editCategoryLimit ? 
+                            (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" strokeWidth="32" stroke="currentColor" className = "w-6 h-6 stroke-blue-700" onClick = {handleCategoryLimitEditClick}>
+                                    <title>Save</title>
+                                    <path d="M380.93 57.37A32 32 0 00358.3 48H94.22A46.21 46.21 0 0048 94.22v323.56A46.21 46.21 0 0094.22 464h323.56A46.36 46.36 0 00464 417.78V153.7a32 32 0 00-9.37-22.63zM256 416a64 64 0 1164-64 63.92 63.92 0 01-64 64zm48-224H112a16 16 0 01-16-16v-64a16 16 0 0116-16h192a16 16 0 0116 16v64a16 16 0 01-16 16z" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            )
+                            :
+                            (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 stroke-blue-700" onClick = {handleCategoryLimitEditClick}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg>
+                            )
+                        }
+                    </div>
                 </div>
 
                 <div className = "w-full h-2 min-w-[300px] bg-gray-200 rounded-lg">
