@@ -22,4 +22,9 @@ function deleteOneCategoryAndAllRelatedExpenses(categoryId) {
                 .then(response => response.data);
 };
 
-export default {getAllCategories, addCategory, getOneCategory, deleteOneCategoryAndAllRelatedExpenses}; 
+function updateOneCategory(categoryId, updatedCategoryObj) {
+    return axios.put(`${BASE_URL}/${categoryId}`, updatedCategoryObj)
+                .then(response => response.data);
+};
+
+export default {getAllCategories, addCategory, getOneCategory, deleteOneCategoryAndAllRelatedExpenses, updateOneCategory}; 
