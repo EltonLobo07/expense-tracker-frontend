@@ -146,15 +146,6 @@ function ExpensePage() {
 
                     <textarea id = "description" rows = {2} className = "p-1 resize-y min-h-[32px] bg-gray-50" disabled = {!editDescription} value = {description} onChange = {e => setDescription(e.target.value)} ref = {descriptionRef}>
                     </textarea>
-
-                    {
-                        descriptionRef.current?.value.length < 5 ? 
-                        (<div>
-                            Description must be atleast 5 characters long
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <div className = "flex flex-col gap-y-1">
@@ -180,14 +171,6 @@ function ExpensePage() {
                         }
                     </label>
                     <input id = "amount" type = "number" className = "p-1 bg-gray-50" disabled = {!editAmount} value = {amount} onChange = {e => setAmount(e.target.value)} ref = {amountRef} />
-                    {
-                        Number(amountRef.current?.value) === 0 ? 
-                        (<div>
-                            Amount cannot be 0
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <div className = "flex flex-col gap-y-1">

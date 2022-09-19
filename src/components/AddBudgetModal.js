@@ -12,13 +12,14 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
         categoryService.addCategory({name: categoryName, limit: Number(limit)})
                        .then((newCategoryData) => {
                             setAndCloseErrDisplayer("Category added", false);
+                            setCategoryName("");
+                            setLimit("");
                             setBudgetFormZIndex(10);
                             setCategories([...categories, newCategoryData]);
                        })
-                       .catch(err => setAndCloseErrDisplayer(err));
-                       
-        setCategoryName("");
-        setLimit("");
+                       .catch(err => {
+                            setAndCloseErrDisplayer(err);
+                       });
     };
 
     return (
@@ -33,14 +34,6 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
                         Category name*
                     </label>
                     <input type = "text" id = "categoryName" value = {categoryName} onChange = {e => {setCategoryName(e.target.value)}} className = "p-1" />
-                    {
-                        categoryName.length < 2 ? 
-                        (<div>
-                            Name must be atleast 2 characters long
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <div className = "flex flex-col gap-y-1">
@@ -48,14 +41,6 @@ function AddBudgetModal({ myZVal, onCancelClick, categories, setCategories, setB
                         Category limit amount*
                     </label>
                     <input id = "limit" type = "number" value = {limit} onChange = {e => setLimit(e.target.value)} className = "p-1" />
-                    {
-                        Number(limit) === 0 ? 
-                        (<div>
-                            Limit cannot be 0
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <button type = "submit" className = "btn btn-v1">

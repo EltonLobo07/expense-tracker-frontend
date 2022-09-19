@@ -15,12 +15,13 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                       .then(expense => {
                         setAndCloseErrDisplayer("Expense added", false);
                         setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
+                        setDescription("");
+                        setAmount("");
                         setExpenseFormZIndex(10);
                       })
-                      .catch(err => setAndCloseErrDisplayer(err));
-
-        setDescription("");
-        setAmount("");
+                      .catch(err => {
+                        setAndCloseErrDisplayer(err);
+                      });
     };
 
     return (
@@ -36,14 +37,6 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                     </label>
                     <textarea id = "description" value = {description} onChange = {e => {setDescription(e.target.value)}} rows = {3} className = "p-1 resize-y min-h-[32px]">
                     </textarea>
-                    {
-                        description.length < 5 ? 
-                        (<div>
-                            Description must be atleast 5 characters long
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <div className = "flex flex-col gap-y-1">
@@ -51,14 +44,6 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
                         Amount*
                     </label>
                     <input id = "amount" type = "number" value = {amount} onChange = {e => setAmount(e.target.value)} className = "p-1" />
-                    {
-                        Number(amount) === 0 ? 
-                        (<div>
-                            Amount cannot be 0
-                        </div>)
-                        :
-                        (<div className = "h-6"></div>)
-                    }
                 </div>
 
                 <div className = "flex flex-col gap-y-1">

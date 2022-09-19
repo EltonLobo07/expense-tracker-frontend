@@ -212,7 +212,7 @@ function CategoryPage() {
                             Limit
                         </label>
                         <span>
-                            $ <input type = "number" id = "limit"  defaultValue = {category.limit} className = "text-gray-500 w-24 p-1 text-lg" disabled = {!editCategoryLimit} ref = {categoryLimitRef} />
+                            $ <input type = "number" id = "limit"  defaultValue = {category.limit} className = "w-24 p-1 text-lg" disabled = {!editCategoryLimit} ref = {categoryLimitRef} />
                         </span>
                         {
                             editCategoryLimit ? 
