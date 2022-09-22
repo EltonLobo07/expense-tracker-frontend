@@ -1,3 +1,7 @@
+html, body, #root {
+    height: 100%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,7 +19,7 @@
         @apply bg-white text-blue-700 hover:bg-gray-100 active:bg-gray-200;
     }
 
-    input[type = "text"], input[type = "number"], input[type = "date"], textarea {
+    input[type = "text"], input[type = "number"], input[type = "date"], input[type = "password"], textarea {
         @apply border-0;
     }
 }
