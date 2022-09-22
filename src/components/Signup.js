@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginService from "../services/login";
+import userService from "../services/user";
 import DisplayError from "./DisplayError";
 
 let timeoutId;
 
-function Login() {
+function Signup() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [errMsg, setErrMsg] = useState(null);
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
 
+        if (password !== confirmPassword) {
+            setErrMsg("Password and confirm password don't match");
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => setErrMsg(null), 5000);
+            return;
+        }
+
         try {
-            const token = await loginService.login({username, password});
+            await userService.signup({username, password});
             setUsername("");
             setPassword("");
-            navigate("/");
+            setConfirmPassword("");
+            navigate("/login");
         }
         catch(err) {
             setErrMsg(err?.response?.data?.error || err.message);
@@ -33,7 +41,7 @@ function Login() {
             <DisplayError msg = {errMsg} />
 
             <div className = "text-4xl font-medium">
-                Login
+                Signup
             </div>
 
             <form className = "mx-4 p-8 bg-white rounded-lg shadow-lg flex flex-col gap-y-6 w-1/2 min-w-[300px] max-w-md">
@@ -50,13 +58,15 @@ function Login() {
                         Password*
                     </label>
 
-                    <input type = {showPassword ? "text" : "password"} id = "password" value = {password} onChange = {e => setPassword(e.target.value)} placeholder = "Your password" className = "bg-gray-50 p-1 rounded-sm" />
+                    <input type = "password" id = "password" value = {password} onChange = {e => setPassword(e.target.value)} placeholder = "Your password" className = "bg-gray-50 p-1 rounded-sm" />
+                </div>
 
-                    <div className = "flex items-center gap-x-2">
-                        <input type = "checkbox" id = "showPassword" checked = {showPassword} onChange = {() => setShowPassword(!showPassword)} className = "bg-gray-50" />
+                <div className = "flex flex-col gap-y-1">
+                    <label htmlFor = "confirmPassword" className = "text-lg font-medium">
+                        Confirm password*
+                    </label>
 
-                        <label htmlFor = "showPassword">Show password</label>
-                    </div>
+                    <input type = "password" id = "confirmPassword" value = {confirmPassword} onChange = {e => setConfirmPassword(e.target.value)} placeholder = "Your password (again)" className = "bg-gray-50 p-1 rounded-sm" />
                 </div>
 
                 <button type = "submit" className = "btn btn-v1" onClick = {handleSubmit}>
@@ -67,4 +77,4 @@ function Login() {
     );
 };
 
-export default Login;
+export default Signup;

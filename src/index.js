@@ -11,6 +11,7 @@ import ExpensePage from "./components/ExpensePage";
 import MainDisplayer from "./components/MainDisplayer";
 import UnknownPath from "./components/UnknownPath";
 import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 if (!window.Promise)
     window.Promise = PromisePolyfill;
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path = "expense-:expenseId" element = {<ExpensePage />} />
 
                 <Route path = "login" element = {<Login />} />
+                <Route path = "signup" element = {<Signup />} />
             </Route>
             <Route path = "*" element = {<UnknownPath />} />
         </Routes>
