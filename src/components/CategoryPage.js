@@ -177,7 +177,7 @@ function CategoryPage() {
     const orderedExpenses = orderExpenses(expenses, new Date(startDate).getTime(), new Date(endDate).getTime(), radioBtnId, sortReverse);
 
     return (
-        <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 h-screen overflow-y-auto">
+        <div className = "p-12 flex flex-col items-center gap-y-8 bg-gray-50 overflow-y-auto" style = {{height: "calc(100vh - 115px)"}}>
             <DisplayError msg = {errMsg} />
             
             <div className = "flex flex-col items-center gap-y-1">

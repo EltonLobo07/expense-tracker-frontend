@@ -37,7 +37,7 @@ function Signup() {
     };
 
     return (
-        <div className = "min-h-screen bg-gray-50 flex flex-col justify-center items-center gap-y-12">
+        <div className = "bg-gray-50 flex flex-col pt-8 items-center gap-y-12 overflow-y-auto" style = {{height: "calc(100vh - 115px)"}}>
             <DisplayError msg = {errMsg} />
 
             <div className = "text-4xl font-medium">

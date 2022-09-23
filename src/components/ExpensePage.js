@@ -123,7 +123,7 @@ function ExpensePage() {
     };
 
     return (
-        <div className = "flex justify-center h-screen bg-gray-50 overflow-y-auto pb-8">
+        <div className = "flex justify-center bg-gray-50 pb-8 overflow-y-auto" style = {{height: "calc(100vh - 115px)"}}>
             <DisplayError msg = {errMsg} />
 
             <div className = "mx-4 my-8 w-full max-w-lg flex flex-col gap-y-4 p-6 rounded-md bg-white h-fit">

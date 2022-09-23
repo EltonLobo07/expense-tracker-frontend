@@ -78,7 +78,7 @@ function MainDisplayer() {
     }
 
     return (
-        <div className = "relative z-0 min-h-screen">
+        <div className = "relative z-0" style = {{height: "calc(100vh - 115px)"}}>
             <DisplayError msg = {errMsg} isErr = {isErrMsg} />
 
             <Categories categories = {categories}

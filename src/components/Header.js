@@ -23,7 +23,7 @@ function Header({ user, setUser }) {
     };
 
     return (
-        <div className = "flex flex-col items-center gap-y-2 p-2 fixed z-10 w-full shadow-md bg-gray-50 text-lg">
+        <div className = "flex flex-col items-center gap-y-2 p-2 w-full shadow-md bg-gray-50 text-lg fixed z-10">
             <div className = "flex gap-x-8 text-blue-700">
                 <button className = "border-b border-gray-50 hover:border-blue-700 px-2" onClick = {() => navigate("/categories")}>
                     Categories
