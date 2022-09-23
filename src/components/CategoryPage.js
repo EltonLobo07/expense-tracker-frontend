@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Expense from "./ExpenseComponent";
 import expenseService from "../services/expense";
 import categoryService from "../services/category";
@@ -45,6 +45,7 @@ function orderExpenses(expenses, startTime, endTime, radioBtnId, sortReverse) {
 
 
 function CategoryPage() {
+    const user = useOutletContext()[0];
     const { categoryId } = useParams();
     const [expenses, setExpenses] = useState(null);
     const [category, setCategory] = useState(null);
@@ -96,7 +97,8 @@ function CategoryPage() {
     };
 
     useEffect(() => {
-        expenseService.getOneCategoryExpenses({categoryId})
+        if (user) {
+            expenseService.getOneCategoryExpenses({categoryId})
                       .then(expenses => {
                             let mn = Infinity;
 
@@ -113,16 +115,24 @@ function CategoryPage() {
                             setAndCloseErrDisplayer(err);
                             setLoadingPageMsg("Something went wrong, please try again");
                       });
+        }
     }, []);
 
     useEffect(() => {
-        categoryService.getOneCategory(categoryId)
+        if (user) {
+            categoryService.getOneCategory(categoryId)
                        .then(category => setCategory(category))
                        .catch(err => {
                             setAndCloseErrDisplayer(err);
                             setLoadingPageMsg("Something went wrong, please try again.");
                        });
+        }
     }, [expenses]);
+
+    useEffect(() => {
+        if (user === null)
+            navigate("/login");
+    }, [user]);
 
     if (expenses === null || category === null)
         return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import CategoryService from "../services/category";
 import AddBudgetModal from "./AddBudgetModal";
 import AddExpenseModal from "./AddExpenseModal";
@@ -7,6 +8,8 @@ import DisplayError from "./DisplayError";
 import LoadingPage from "./LoadingPage";
 
 function MainDisplayer() {
+    const user = useOutletContext()[0];
+    const navigate = useNavigate();
     const [categories, setCategories] = useState(null);
     const [expenseFormZIndex, setExpenseFormZIndex] = useState(10);
     const [addExpenseCategory, setAddExpenseCategory] = useState(null);
@@ -57,13 +60,18 @@ function MainDisplayer() {
     };
 
     useEffect(() => {
+        if (user === null) {
+            navigate("/login");
+            return;
+        }
+
         CategoryService.getAllCategories()
                        .then(categories => setCategories(categories))
                        .catch(err => {
                             setAndCloseErrDisplayer(err);
                             setLoadingPageMsg("Something went wrong, please try again.");
                        });
-    }, []);
+    }, [user]);
 
     if (categories === null) {
         return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;

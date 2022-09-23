@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { resetToken } from "../services/token";
 
 const usernameCharacterLimit = 20; // Minimum character limit should be 3 for the below function to work properly
 
@@ -14,6 +15,12 @@ function getUsername(user) {
 
 function Header({ user, setUser }) {
     const navigate = useNavigate();
+
+    function handleLogoutClick() {
+        window.localStorage.removeItem("usernameAndToken");
+        resetToken();
+        setUser(null);
+    };
 
     return (
         <div className = "flex flex-col items-center gap-y-2 p-2 fixed z-10 w-full shadow-md bg-gray-50 text-lg">
@@ -38,7 +45,7 @@ function Header({ user, setUser }) {
                             Hello {getUsername(user)}!
                         </span>
 
-                        <button className = "btn btn-v1 py-0 w-fit">
+                        <button className = "btn btn-v1 py-0 w-fit" onClick = {handleLogoutClick}>
                             Logout
                         </button>
                     </div>

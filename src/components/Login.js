@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import loginService from "../services/login";
 import DisplayError from "./DisplayError";
+import { setToken as tokenServiceSetToken } from "../services/token";
 
 let timeoutId;
 
 function Login() {
+    const [_, setUser] = useOutletContext();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -16,9 +18,12 @@ function Login() {
         e.preventDefault();
 
         try {
-            const token = await loginService.login({username, password});
+            const usernameAndToken = await loginService.login({username, password});
             setUsername("");
             setPassword("");
+            window.localStorage.setItem("usernameAndToken", JSON.stringify(usernameAndToken));
+            tokenServiceSetToken(usernameAndToken.token);
+            setUser(usernameAndToken);
             navigate("/");
         }
         catch(err) {

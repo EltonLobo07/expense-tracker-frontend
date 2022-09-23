@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import expenseService from "../services/expense";
 import DisplayError from "./DisplayError";
 import LoadingPage from "./LoadingPage";
@@ -7,6 +7,7 @@ import UnknownPath  from "./UnknownPath";
 import { dateToMyStr, dateToDateFormatStr, toggleDisableAndFocusIfPossible } from "../helpers";
 
 function ExpensePage() {
+    const user = useOutletContext()[0];
     const addedDate = useRef(null);
     const [pageNotFound, setPageNotFound] = useState(false);
     const [description, setDescription] = useState(null);
@@ -35,6 +36,11 @@ function ExpensePage() {
     };
 
     useEffect(() => {
+        if (user === null) {
+            navigate("/login");
+            return;
+        }
+
         expenseService.getOneExpense({expenseId})
                       .then(expense => {
                         addedDate.current = new Date(expense.added);
@@ -51,7 +57,7 @@ function ExpensePage() {
                             setLoadingPageMsg("Something went wrong, please try again.");
                         }
                       });
-    }, []);
+    }, [user]);
 
     function handleDeleteButtonClick() {
         expenseService.deleteOneExpense({expenseId})
