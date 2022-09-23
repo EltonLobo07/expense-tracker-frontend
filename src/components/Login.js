@@ -7,7 +7,7 @@ import { setToken as tokenServiceSetToken } from "../services/token";
 let timeoutId;
 
 function Login() {
-    const [_, setUser] = useOutletContext();
+    const [user, setUser] = useOutletContext();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -33,13 +33,15 @@ function Login() {
         }
     };
 
+    const height = user ? "calc(100vh - 115px)" : "calc(100vh - 45px)";
+
     return (
-        <div className = "bg-gray-50 flex flex-col pt-8 items-center gap-y-12 overflow-y-auto" style = {{height: "calc(100vh - 115px)"}}>
+        <div className = "bg-gray-50 flex flex-col py-8 items-center gap-y-12 overflow-y-auto" style = {{height}}>
             <DisplayError msg = {errMsg} />
 
-            <div className = "text-4xl font-medium">
+            <h1 className = "text-4xl font-medium">
                 Login
-            </div>
+            </h1>
 
             <form className = "mx-4 p-8 bg-white rounded-lg shadow-lg flex flex-col gap-y-6 w-1/2 min-w-[300px] max-w-md">
                 <div className = "flex flex-col gap-y-1">
@@ -68,6 +70,15 @@ function Login() {
                     Submit
                 </button>
             </form>
+
+            <div className = "flex flex-col gap-y-6">
+                <h2 className = "text-2xl text-gray-500">
+                    Haven't signed up yet?
+                </h2>
+                <button onClick = {() => navigate("/signup")} className = "btn btn-v2">
+                    Create new account
+                </button>
+            </div>
         </div>
     );
 };

@@ -7,7 +7,7 @@ function DisplayError({ msg, isErr = true }) {
         return null;
 
     return (
-        <div className = "fixed top-16 left-1/2 -translate-x-1/2 p-4 text-white text-lg flex flex-col items-center rounded-sm max-w-lg z-[40]" style = {{backgroundColor: `${isErr ? "#f44336" : "#4caf50"}`}}>
+        <div className = "fixed top-32 left-1/2 -translate-x-1/2 p-4 text-white text-lg flex flex-col items-center rounded-sm max-w-lg z-[40]" style = {{backgroundColor: `${isErr ? "#f44336" : "#4caf50"}`}}>
             {
                 isErr ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">

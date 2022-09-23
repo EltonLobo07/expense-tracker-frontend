@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import userService from "../services/user";
 import DisplayError from "./DisplayError";
 
 let timeoutId;
 
 function Signup() {
+    const user = useOutletContext()[0];
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,13 +37,15 @@ function Signup() {
         }
     };
 
+    const height = user ? "calc(100vh - 115px)" : "calc(100vh - 45px)";
+
     return (
-        <div className = "bg-gray-50 flex flex-col pt-8 items-center gap-y-12 overflow-y-auto" style = {{height: "calc(100vh - 115px)"}}>
+        <div className = "bg-gray-50 flex flex-col py-8 items-center gap-y-12 overflow-y-auto" style = {{height}}>
             <DisplayError msg = {errMsg} />
 
-            <div className = "text-4xl font-medium">
+            <h1 className = "text-4xl font-medium">
                 Signup
-            </div>
+            </h1>
 
             <form className = "mx-4 p-8 bg-white rounded-lg shadow-lg flex flex-col gap-y-6 w-1/2 min-w-[300px] max-w-md">
                 <div className = "flex flex-col gap-y-1">
@@ -73,6 +76,15 @@ function Signup() {
                     Submit
                 </button>
             </form>
+
+            <div className = "flex flex-col gap-y-6">
+                <h2 className = "text-2xl text-gray-500">
+                    Already have an account?
+                </h2>
+                <button onClick = {() => navigate("/login")} className = "btn btn-v2">
+                    Login
+                </button>
+            </div>
         </div>
     );
 };
