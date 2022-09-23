@@ -29,7 +29,7 @@ function Login() {
     };
 
     return (
-        <div className = "h-full bg-gray-50 flex flex-col justify-center items-center gap-y-12">
+        <div className = "min-h-screen bg-gray-50 flex flex-col justify-center items-center gap-y-12">
             <DisplayError msg = {errMsg} />
 
             <div className = "text-4xl font-medium">

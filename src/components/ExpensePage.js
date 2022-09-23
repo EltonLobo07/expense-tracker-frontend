@@ -117,10 +117,10 @@ function ExpensePage() {
     };
 
     return (
-        <div className = "flex justify-center h-screen bg-gray-50">
+        <div className = "flex justify-center h-screen bg-gray-50 overflow-y-auto pb-8">
             <DisplayError msg = {errMsg} />
 
-            <div className = "mx-4 my-8 w-full max-w-lg flex flex-col gap-y-4 p-6 rounded-md bg-white overflow-y-auto">
+            <div className = "mx-4 my-8 w-full max-w-lg flex flex-col gap-y-4 p-6 rounded-md bg-white h-fit">
                 <div className = "flex flex-col gap-y-1">
                     <label htmlFor = "description" className = "text-lg font-medium flex gap-x-1">
                         <span>

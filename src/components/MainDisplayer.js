@@ -70,7 +70,7 @@ function MainDisplayer() {
     }
 
     return (
-        <div className = "relative z-0 h-screen">
+        <div className = "relative z-0 min-h-screen">
             <DisplayError msg = {errMsg} isErr = {isErrMsg} />
 
             <Categories categories = {categories}

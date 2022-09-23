@@ -24,7 +24,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path = "categories" element = {<MainDisplayer />} />
                 <Route path = "categories/:categoryId" element = {<CategoryPage />} />
                 <Route path = "expense-:expenseId" element = {<ExpensePage />} />
-
                 <Route path = "login" element = {<Login />} />
                 <Route path = "signup" element = {<Signup />} />
             </Route>
