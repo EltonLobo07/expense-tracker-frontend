@@ -65,7 +65,7 @@ function MainDisplayer() {
             return;
         }
 
-        CategoryService.getAllCategories()
+        CategoryService.getAllCategories(user.token)
                        .then(categories => setCategories(categories))
                        .catch(err => {
                             setAndCloseErrDisplayer(err);
@@ -73,7 +73,7 @@ function MainDisplayer() {
                        });
     }, [user]);
 
-    if (categories === null) {
+    if (categories === null || user === null) {
         return <LoadingPage msg = {loadingPageMsg} errMsg = {errMsg} />;
     }
 
@@ -91,14 +91,16 @@ function MainDisplayer() {
                              setCategories = {setCategories} 
                              categoryName = {addExpenseCategory} 
                              setExpenseFormZIndex = {setExpenseFormZIndex}
-                             setAndCloseErrDisplayer = {setAndCloseErrDisplayer} />
+                             setAndCloseErrDisplayer = {setAndCloseErrDisplayer}
+                             token = {user.token} />
 
             <AddBudgetModal myZVal = {budgetFormZIndex} 
                             onCancelClick = {hideAddBudgetModal} 
                             categories = {categories} 
                             setCategories = {setCategories} 
                             setBudgetFormZIndex = {setBudgetFormZIndex}
-                            setAndCloseErrDisplayer = {setAndCloseErrDisplayer} />
+                            setAndCloseErrDisplayer = {setAndCloseErrDisplayer}
+                            token = {user.token} />
         </div>
     );
 };

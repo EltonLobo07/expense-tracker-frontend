@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import expenseService from "../services/expense";
 import { dateToMyStr } from "../helpers";
 
-function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex, setAndCloseErrDisplayer }) {
+function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, categoryName, setExpenseFormZIndex, setAndCloseErrDisplayer, token }) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState(dateToMyStr(new Date()));
@@ -11,7 +11,7 @@ function AddExpenseModal({ myZVal, onCancelClick, categories, setCategories, cat
     function handleSubmit(e) {
         e.preventDefault();
 
-        expenseService.addExpense({description, amount: Number(amount), category: categoryName, date})
+        expenseService.addExpense({description, amount: Number(amount), category: categoryName, date}, token)
                       .then(expense => {
                         setAndCloseErrDisplayer("Expense added", false);
                         setCategories(categories.map(category => category.name === categoryName ? {...category, total: Number((category.total + expense.amount).toFixed(2))} : category));
@@ -77,7 +77,8 @@ AddExpenseModal.propType = {
     setCategories: PropTypes.func.isRequired,
     categoryName: PropTypes.string,
     setExpenseFormZIndex: PropTypes.func.isRequired,
-    setAndCloseErrDisplayer: PropTypes.func.isRequired
+    setAndCloseErrDisplayer: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired
 };
 
 export default AddExpenseModal;

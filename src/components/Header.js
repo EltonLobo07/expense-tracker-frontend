@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { resetToken } from "../services/token";
 
 const usernameCharacterLimit = 20; // Minimum character limit should be 3 for the below function to work properly
 
@@ -18,7 +17,6 @@ function Header({ user, setUser }) {
 
     function handleLogoutClick() {
         window.localStorage.removeItem("usernameAndToken");
-        resetToken();
         setUser(null);
     };
 

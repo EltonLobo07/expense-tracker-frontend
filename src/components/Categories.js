@@ -22,7 +22,7 @@ function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
     const orderedCategories = orderCategories(sortByPercent, sortReverse, categories);
 
     return (
-        <div className = "p-12 flex flex-col gap-y-8 absolute left-0 top-0 z-20 bg-gray-50 w-full h-full overflow-y-auto">
+        <div className = "p-8 flex flex-col gap-y-8 absolute left-0 top-0 z-20 bg-gray-50 w-full h-full overflow-y-auto">
             <div className = "flex flex-col my-sm:flex-row my-sm:justify-around items-center gap-y-2">
                 <div className = "text-4xl my-sm:text-5xl font-semibold pb-2">
                     Categories

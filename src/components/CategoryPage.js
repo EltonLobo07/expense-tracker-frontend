@@ -74,7 +74,7 @@ function CategoryPage() {
     async function handleCategoryDeleteClick() {
         if (window.confirm(`Deleting this category will delete all of the expenses related to this category. If you wish to proceed, click "ok"`)) {
             try {
-                await categoryService.deleteOneCategoryAndAllRelatedExpenses(categoryId);
+                await categoryService.deleteOneCategoryAndAllRelatedExpenses(categoryId, user.token);
                 navigate("/categories");
             }
             catch(err) {
@@ -87,7 +87,7 @@ function CategoryPage() {
         if (e.target.dataset?.cancel === "yes") {
             try {
                 const expenseId = e.target.dataset.expenseid;
-                await expenseService.deleteOneExpense({expenseId: expenseId});
+                await expenseService.deleteOneExpense({expenseId: expenseId}, user.token);
                 setExpenses(expenses.filter(expense => expense._id !== expenseId));
             }
             catch(err) {
@@ -98,7 +98,7 @@ function CategoryPage() {
 
     useEffect(() => {
         if (user) {
-            expenseService.getOneCategoryExpenses({categoryId})
+            expenseService.getOneCategoryExpenses({categoryId}, user.token)
                       .then(expenses => {
                             let mn = Infinity;
 
@@ -120,7 +120,7 @@ function CategoryPage() {
 
     useEffect(() => {
         if (user) {
-            categoryService.getOneCategory(categoryId)
+            categoryService.getOneCategory(categoryId, user.token)
                        .then(category => setCategory(category))
                        .catch(err => {
                             setAndCloseErrDisplayer(err);
@@ -142,7 +142,7 @@ function CategoryPage() {
 
         if (editCategoryName) {
             try {
-                setCategory(await categoryService.updateOneCategory(category._id, {name: categoryNameRef.current.value}));
+                setCategory(await categoryService.updateOneCategory(category._id, {name: categoryNameRef.current.value}, user.token));
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);
@@ -160,7 +160,7 @@ function CategoryPage() {
 
         if (editCategoryLimit) {
             try {
-                setCategory(await categoryService.updateOneCategory(category._id, {limit: Number(categoryLimitRef.current.value)}));
+                setCategory(await categoryService.updateOneCategory(category._id, {limit: Number(categoryLimitRef.current.value)}, user.token));
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);

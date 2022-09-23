@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import loginService from "../services/login";
 import DisplayError from "./DisplayError";
-import { setToken as tokenServiceSetToken } from "../services/token";
 
 let timeoutId;
 
@@ -22,7 +21,6 @@ function Login() {
             setUsername("");
             setPassword("");
             window.localStorage.setItem("usernameAndToken", JSON.stringify(usernameAndToken));
-            tokenServiceSetToken(usernameAndToken.token);
             setUser(usernameAndToken);
             navigate("/");
         }

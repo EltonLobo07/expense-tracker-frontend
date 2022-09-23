@@ -1,31 +1,29 @@
 import axios from "axios";
-import { token } from "./token";
-const config = {headers: {Authorization: `Bearer ${token}`}};
 
 const BASE_URL = "http://localhost:3001/api/categories";
 
-function getAllCategories() {
-    return axios.get(BASE_URL, config)
+function getAllCategories(token) {
+    return axios.get(BASE_URL, {headers: {Authorization: `Bearer ${token}`}})
                 .then(response => response.data);
 };
 
-function addCategory(data) {
-    return axios.post(BASE_URL, data, config)
+function addCategory(data, token) {
+    return axios.post(BASE_URL, data, {headers: {Authorization: `Bearer ${token}`}})
                 .then(response => response.data);
 };
 
-function getOneCategory(categoryId) {
-    return axios.get(`${BASE_URL}/${categoryId}`, config)
+function getOneCategory(categoryId, token) {
+    return axios.get(`${BASE_URL}/${categoryId}`, {headers: {Authorization: `Bearer ${token}`}})
                 .then(response => response.data);
 };
 
-function deleteOneCategoryAndAllRelatedExpenses(categoryId) {
-    return axios.delete(`${BASE_URL}/${categoryId}`, config)
+function deleteOneCategoryAndAllRelatedExpenses(categoryId, token) {
+    return axios.delete(`${BASE_URL}/${categoryId}`, {headers: {Authorization: `Bearer ${token}`}})
                 .then(response => response.data);
 };
 
-function updateOneCategory(categoryId, updatedCategoryObj) {
-    return axios.put(`${BASE_URL}/${categoryId}`, updatedCategoryObj, config)
+function updateOneCategory(categoryId, updatedCategoryObj, token) {
+    return axios.put(`${BASE_URL}/${categoryId}`, updatedCategoryObj, {headers: {Authorization: `Bearer ${token}`}})
                 .then(response => response.data);
 };
 

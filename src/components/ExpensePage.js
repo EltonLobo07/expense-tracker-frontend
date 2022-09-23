@@ -41,7 +41,7 @@ function ExpensePage() {
             return;
         }
 
-        expenseService.getOneExpense({expenseId})
+        expenseService.getOneExpense({expenseId}, user.token)
                       .then(expense => {
                         addedDate.current = new Date(expense.added);
                         setDate(dateToMyStr(new Date(expense.date)));
@@ -60,7 +60,7 @@ function ExpensePage() {
     }, [user]);
 
     function handleDeleteButtonClick() {
-        expenseService.deleteOneExpense({expenseId})
+        expenseService.deleteOneExpense({expenseId}, user.token)
                       .then(() => navigate(`/categories/${category._id}`))
                       .catch(err => setAndCloseErrDisplayer(err));
     };
@@ -76,7 +76,7 @@ function ExpensePage() {
 
         if (editDescription) {
             try {
-                setDescription((await expenseService.updateExpense(expenseId, {description})).description);
+                setDescription((await expenseService.updateExpense(expenseId, {description}, user.token)).description);
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);
@@ -93,7 +93,7 @@ function ExpensePage() {
 
         if (editAmount) {
             try {
-                setAmount((await expenseService.updateExpense(expenseId, {amount: Number(amount)})).amount);
+                setAmount((await expenseService.updateExpense(expenseId, {amount: Number(amount)}, user.token)).amount);
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);
@@ -110,7 +110,7 @@ function ExpensePage() {
 
         if (editDate) {
             try {
-                setDate(dateToMyStr(new Date((await expenseService.updateExpense(expenseId, {date})).date)));
+                setDate(dateToMyStr(new Date((await expenseService.updateExpense(expenseId, {date}, user.token)).date)));
             }
             catch (err) {
                 setAndCloseErrDisplayer(err);
