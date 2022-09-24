@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3001/api/categories";
+const BASE_URL = "/api/categories"; // "http://localhost:3001/api/categories";
 
 function getAllCategories(token) {
     return axios.get(BASE_URL, {headers: {Authorization: `Bearer ${token}`}})
