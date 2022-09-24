@@ -13,11 +13,17 @@ function Login() {
     const [errMsg, setErrMsg] = useState(null);
     const navigate = useNavigate();
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e, loginDetailsObj = null) {
         e.preventDefault();
 
         try {
-            const usernameAndToken = await loginService.login({username, password});
+            let usernameAndToken;
+
+            if (loginDetailsObj !== null)
+                usernameAndToken = await loginService.login(loginDetailsObj);
+            else
+                usernameAndToken = await loginService.login({username, password});
+
             setUsername("");
             setPassword("");
             window.localStorage.setItem("usernameAndToken", JSON.stringify(usernameAndToken));
@@ -40,6 +46,10 @@ function Login() {
             <h1 className = "text-4xl font-medium">
                 Login
             </h1>
+
+            <button className = "btn btn-v1" onClick = {(e) => handleSubmit(e, {username: "Guest", password: "guest123"})}>
+                Guest login
+            </button>
 
             <form className = "mx-4 p-8 bg-white rounded-lg shadow-lg flex flex-col gap-y-6 w-1/2 min-w-[300px] max-w-md">
                 <div className = "flex flex-col gap-y-1">

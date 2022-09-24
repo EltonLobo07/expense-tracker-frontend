@@ -51,6 +51,14 @@ function Categories({ categories, onAddExpenseClick, onAddBudgetClick }) {
 
             <div className = "flex items-center flex-col gap-y-4 py-4" onClick = {onAddExpenseClick}>
                 {
+                    orderedCategories.length === 0 
+                    ?
+                    (
+                        <div className = "text-lg">
+                            No categories added
+                        </div>
+                    )
+                    : 
                     orderedCategories.map(category => <Category key = {category._id} category = {category} />)
                 }
             </div>
